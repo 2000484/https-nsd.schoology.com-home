@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My HTML Game Collection Index</title>
+    <style>
+        :root {
+            --color-primary: #024f7d; /* Dark Blue */
+            --color-secondary: #0677ba; /* Schoology Blue */
+            --color-light: #f9fafb; /* Light Gray */
+            --color-accent: #ff8c00; /* Orange Accent (Panic) */
+            --bg-default: #f4f4f4;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-default);
+            color: #333;
+        }
+        
+        .container {
+            /* This is the Game List view container */
+            max-width: 1200px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            /* Initially visible */
+            display: block; 
+        }
+
+        /* --- IFRAME STYLES (New) --- */
+        #game-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 500; /* Below panic button, above everything else */
+            display: none; /* Initially hidden */
+        }
+
+        h1 {
+            color: var(--color-primary);
+            font-weight: 700;
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+        
+        .category-heading {
+            color: var(--color-secondary);
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--color-secondary);
+            padding-bottom: 5px;
+            font-weight: 600;
+        }
+
+        p.subtitle {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .game-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .game-list li {
+            background: var(--color-light);
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            border-left: 5px solid var(--color-secondary);
+        }
+
+        .game-list li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-list button { /* Changed <a> to <button> for JS handling */
+            text-decoration: none;
+            color: var(--color-primary);
+            font-size: 1.3em;
+            font-weight: 600;
+            display: block;
+            border: none;
+            background: none;
+            padding: 0;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+        }
+
+        .game-list small {
+            color: #777;
+            display: block;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        .game-list button:hover {
+            color: var(--color-secondary);
+        }
+
+        /* Panic Button Styling (Improved & Centralized) */
+        #panic-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: 50%; 
+            font-weight: bold;
+            font-size: 1.8em; /* Slightly larger icon */
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+            transition: background-color 0.2s, transform 0.1s;
+            z-index: 1000;
+            height: 70px; /* Larger circular button */
+            width: 70px;
+            line-height: 70px;
+            text-align: center;
+            padding: 0;
+            /* Added animation/feedback */
+            animation: pulse 2s infinite; 
+        }
+
+        #panic-button:hover {
+            background-color: #e67e00;
+            transform: scale(1.05);
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 140, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 140, 0, 0); }
+        }
+
+        /* Tooltip style for hover */
+        #panic-button::after {
+            content: 'Quick Exit (ESC)';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            margin-left: 15px;
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+            font-size: 0.9em;
+        }
+
+        #panic-button:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+    </style>
+</head>
+<body>
+    
+    <iframe id="game-frame" src="" allowfullscreen></iframe>
+
+    <div class="container" id="container">
+        <h1>My HTML Game Collection Index (130+ Games)</h1>
+        <p class="subtitle">Click on any game below to start playing!</p>
+
+        <h2 class="category-heading">🥇 Featured & Popular Games</h2>
+        <ul class="game-list">
+            <li><button onclick="loadGame('./n-gon/index.html')">n-gon</button><small>The recognized physics-based shooter and platformer.</small></li>
+            <li><button onclick="loadGame('./slope/index.html')">Slope</button><small>The classic neon endless runner.</small></li>
+            <li><button onclick="loadGame('./retro-bowl/index.html')">Retro Bowl</button><small>Popular 8-bit style American football simulator.</small></li>
+            <li><button onclick="loadGame('./run3/index.html')">Run 3</button><small>The endless runner in space, changing gravity.</small></li>
+            <li><button onclick="loadGame('./1v1lol/index.html')">1v1.LOL Clone</button><small>First-person shooting and building game.</small></li>
+            <li><button onclick="loadGame('./among-us/index.html')">Among Us</button><small>The imposter deduction social game.</small></li>
+            <li><button onclick="loadGame('./minecraft-classic/index.html')">Minecraft Classic</button><small>The original 3D block-building sandbox game.</small></li>
+            <li><button onclick="loadGame('./tetris/index.html')">Tetris</button><small>The classic block-falling puzzle game.</small></li>
+            <li><button onclick="loadGame('./crossy-road/index.html')">Crossy Road</button><small>The endless road-crossing hopper game.</small></li>
+            <li><button onclick="loadGame('./ducklife4/index.html')">Duck Life 4</button><small>Train your duck for racing championships.</small></li>
+            <li><button onclick="loadGame('./bad-ice-cream-3/index.html')">Bad Ice Cream 3</button><small>The third installment of the co-op puzzle game.</small></li>
+            <li><button onclick="loadGame('./rooftop-snipers/index.html')">Rooftop Snipers</button><small>Physics-based two-player sniping duel.</small></li>
+            <li><button onclick="loadGame('./motox3m/index.html')">Moto X3M</button><small>The famous physics-based dirt bike racer.</small></li>
+            <li><button onclick="loadGame('./vex6/index.html')">Vex 6</button><small>The challenging stickman platformer.</small></li>
+        </ul>
+
+        <h2 class="category-heading">👾 Arcade & Action</h2>
+        <ul class="game-list">
+            <li><button onclick="loadGame('./1/index.html')">Game 1 (General)</button><small>The first uploaded game.</small></li>
+            <li><button onclick="loadGame('./100ng/index.html')">100NG</button><small>Game from the 100 Games collection.</small></li>
+            <li><button onclick="loadGame('./1v1space/index.html')">1v1 Space</button><small>A space-themed one-on-one combat game.</small></li>
+            <li><button onclick="loadGame('./10-minutes-till-dawn/index.html')">10 Minutes Till Dawn</button><small>A survival shooter against the clock.</small></li>
+            </ul>
+
+        <h2 class="category-heading">🧠 Puzzle & Strategy</h2>
+        <ul class="game-list">
+            <li><button onclick="loadGame('./9007199254740992/index.html')">9007199254740992</button><small>Game named after the max safe integer.</small></li>
+            </ul>
+
+        <h2 class="category-heading">✨ Idle, Sandbox, & Misc.</h2>
+        <ul class="game-list">
+            <li><button onclick="loadGame('./2020-game/index.html')">2020 Game</button><small>A game based on the events of the year 2020.</small></li>
+            </ul>
+        
+    </div>
+
+    <button id="panic-button" title="Quick Exit (Keyboard Shortcut: ESC)">
+        <span style="font-size: 1.2em;">&#x274C;</span>
+    </button>
+    
+    <script>
+        const container = document.getElementById('container');
+        const gameFrame = document.getElementById('game-frame');
+        const panicButton = document.getElementById('panic-button');
+        
+        // Function to load the game into the iframe
+        function loadGame(url) {
+            gameFrame.src = url;
+            gameFrame.style.display = 'block'; // Show the game
+            container.style.display = 'none';   // Hide the game list
+            document.body.style.overflow = 'hidden'; // Hide scrollbars during gameplay
+        }
+
+        function triggerPanic() {
+            // 1. Instant white screen flash
+            document.body.style.backgroundColor = 'white';
+            container.style.display = 'none';
+            gameFrame.style.display = 'none'; // Hide the game content
+            
+            // 2. Redirect instantly to the safe page
+            // Use replace() so the game index does not appear in browser history
+            window.location.replace('https://nsd-schoology-com-home.netlify.app/');
+        }
+
+        // Attach the panic function to the button click
+        panicButton.addEventListener('click', triggerPanic);
+
+        // Attach the panic function to the Escape key press
+        document.addEventListener('keydown', function(event) {
+            // Check for the Escape key
+            if (event.key === 'Escape') {
+                event.preventDefault(); // Prevents default browser actions
+                triggerPanic();
+            }
+        });
+    </script>
+</body>
+</html>
