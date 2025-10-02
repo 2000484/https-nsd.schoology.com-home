@@ -20,21 +20,21 @@
             padding: 0;
             background-color: var(--bg-default);
             color: #333;
+            /* Prevents scrollbar from showing up when iframe is full-screen */
+            overflow-x: hidden; 
         }
         
         .container {
-            /* This is the Game List view container */
             max-width: 1200px;
             margin: 50px auto;
             background: #fff;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            /* Initially visible */
             display: block; 
         }
 
-        /* --- IFRAME STYLES (New) --- */
+        /* --- IFRAME STYLES --- */
         #game-frame {
             position: fixed;
             top: 0;
@@ -42,7 +42,7 @@
             width: 100%;
             height: 100%;
             border: none;
-            z-index: 500; /* Below panic button, above everything else */
+            z-index: 500; 
             display: none; /* Initially hidden */
         }
 
@@ -93,7 +93,8 @@
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .game-list button { /* Changed <a> to <button> for JS handling */
+        /* Styling the game list buttons */
+        .game-list button { 
             text-decoration: none;
             color: var(--color-primary);
             font-size: 1.3em;
@@ -105,6 +106,7 @@
             cursor: pointer;
             text-align: left;
             width: 100%;
+            line-height: 1.2;
         }
 
         .game-list small {
@@ -118,7 +120,7 @@
             color: var(--color-secondary);
         }
 
-        /* Panic Button Styling (Improved & Centralized) */
+        /* Panic Button Styling */
         #panic-button {
             position: fixed;
             bottom: 20px;
@@ -128,17 +130,16 @@
             border: none;
             border-radius: 50%; 
             font-weight: bold;
-            font-size: 1.8em; /* Slightly larger icon */
+            font-size: 1.8em; 
             cursor: pointer;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); 
             transition: background-color 0.2s, transform 0.1s;
             z-index: 1000;
-            height: 70px; /* Larger circular button */
+            height: 70px; 
             width: 70px;
             line-height: 70px;
             text-align: center;
             padding: 0;
-            /* Added animation/feedback */
             animation: pulse 2s infinite; 
         }
 
@@ -155,7 +156,7 @@
 
         /* Tooltip style for hover */
         #panic-button::after {
-            content: 'Quick Exit (ESC)';
+            content: 'Quick Exit (Hotkey: `)'; /* Updated Hotkey in tooltip */
             position: absolute;
             top: 50%;
             left: 100%;
@@ -210,21 +211,167 @@
             <li><button onclick="loadGame('./100ng/index.html')">100NG</button><small>Game from the 100 Games collection.</small></li>
             <li><button onclick="loadGame('./1v1space/index.html')">1v1 Space</button><small>A space-themed one-on-one combat game.</small></li>
             <li><button onclick="loadGame('./10-minutes-till-dawn/index.html')">10 Minutes Till Dawn</button><small>A survival shooter against the clock.</small></li>
-            </ul>
+            <li><button onclick="loadGame('./adrenalinechallenge/index.html')">Adrenaline Challenge</button><small>A fast-paced reflex and action game.</small></li>
+            <li><button onclick="loadGame('./alien-invaders-io/index.html')">Alien Invaders IO</button><small>Multiplayer alien shooter game.</small></li>
+            <li><button onclick="loadGame('./alienhominid/index.html')">Alien Hominid</button><small>A stylized action-shooter game.</small></li>
+            <li><button onclick="loadGame('./angry-birds/index.html')">Angry Birds</button><small>The physics-based bird-slinging puzzle game.</small></li>
+            <li><button onclick="loadGame('./anti-terrorist-rush/index.html')">Anti-Terrorist Rush</button><small>A first-person combat shooter game.</small></li>
+            <li><button onclick="loadGame('./arcade-wizard/index.html')">Arcade Wizard</button><small>A retro pixel-art dungeon crawler.</small></li>
+            <li><button onclick="loadGame('./asciispace/index.html')">ASCII Space</button><small>A space game using text characters.</small></li>
+            <li><button onclick="loadGame('./asteroids/index.html')">Asteroids</button><small>The classic vector arcade shooter.</small></li>
+            <li><button onclick="loadGame('./avalanche/index.html')">Avalanche</button><small>A survival game against falling objects.</small></li>
+            <li><button onclick="loadGame('./awesome-tanks-2/index.html')">Awesome Tanks 2</button><small>Top-down tank battle arcade game.</small></li>
+            <li><button onclick="loadGame('./backrooms/index.html')">The Backrooms</button><small>A horror exploration game.</small></li>
+            <li><button onclick="loadGame('./basketball-stars/index.html')">Basketball Stars</button><small>Two-player physics-based basketball.</small></li>
+            <li><button onclick="loadGame('./breakout/index.html')">Breakout</button><small>The classic brick-breaking arcade game.</small></li>
+            <li><button onclick="loadGame('./cannon-basketball-4/index.html')">Cannon Basketball 4</button><small>Aim and shoot basketballs with a cannon.</small></li>
+            <li><button onclick="loadGame('./chrome-dino/index.html')">Chrome Dino Run</button><small>The T-Rex endless runner game.</small></li>
+            <li><button onclick="loadGame('./chromedino/index.html')">Chrome Dino (Alternate)</button><small>Another version of the T-Rex runner.</small></li>
+            <li><button onclick="loadGame('./ctr-holiday/index.html')">Car Tuning Race (Holiday)</button><small>A holiday version of the racing game.</small></li>
+            <li><button onclick="loadGame('./ctr-tr/index.html')">Car Tuning Race (Time Rush)</button><small>A time-trial version of the racing game.</small></li>
+            <li><button onclick="loadGame('./ctr/index.html')">Car Tuning Race</button><small>Vehicle tuning and racing simulator.</small></li>
+            <li><button onclick="loadGame('./cubefield/index.html')">Cubefield</button><small>Fast-paced 3D avoidance runner.</small></li>
+            <li><button onclick="loadGame('./death-run-3d/index.html')">Death Run 3D</button><small>Intensely fast 3D tunnel runner.</small></li>
+            <li><button onclick="loadGame('./defend-the-tank/index.html')">Defend the Tank</button><small>A turret defense shooting game.</small></li>
+            <li><button onclick="loadGame('./draw-the-hill/index.html')">Draw The Hill</button><small>Physics-based drawing racer.</small></li>
+            <li><button onclick="loadGame('./drift-hunters/index.html')">Drift Hunters</button><small>3D car game focused on drifting.</small></li>
+            <li><button onclick="loadGame('./flappy-bird/index.html')">Flappy Bird</button><small>The famously difficult tapping game.</small></li>
+            <li><button onclick="loadGame('./flappybird/index.html')">Flappy Bird (Alternate)</button><small>Another version of the classic tapper.</small></li>
+            <li><button onclick="loadGame('./geodash/index.html')">Geo Dash</button><small>A challenging rhythm-based platformer.</small></li>
+            <li><button onclick="loadGame('./geometrydash/index.html')">Geometry Dash</button><small>The full version of the rhythm-based platformer.</small></li>
+            <li><button onclick="loadGame('./getaway-shootout/index.html')">Getaway Shootout</button><small>Madcap platform shooter.</small></li>
+            <li><button onclick="loadGame('./HexGL/index.html')">HexGL</button><small>Futuristic racing game.</small></li>
+            <li><button onclick="loadGame('./madalin-stunt-cars-2/index.html')">Madalin Stunt Cars 2</button><small>3D open-world car stunt simulator.</small></li>
+            <li><button onclick="loadGame('./madalin-stunt-cars-3/index.html')">Madalin Stunt Cars 3</button><small>The third installment of the stunt driving game.</small></li>
+            <li><button onclick="loadGame('./mario/index.html')">Super Mario Bros. (Classic)</button><small>The iconic 2D platformer.</small></li>
+            <li><button onclick="loadGame('./FullScreenMario/Source/index.html')">Full Screen Mario</button><small>A browser-based Super Mario clone.</small></li>
+            <li><button onclick="loadGame('./missiles/index.html')">Missiles</button><small>Avoid incoming missiles in your small plane.</small></li>
+            <li><button onclick="loadGame('./motox3m-pool/index.html')">Moto X3M Pool</button><small>A pool-themed version of the racer.</small></li>
+            <li><button onclick="loadGame('./motox3m-spooky/index.html')">Moto X3M Spooky</button><small>A spooky/Halloween version of the racer.</small></li>
+            <li><button onclick="loadGame('./ninja/index.html')">Ninja</button><small>A generic ninja themed game.</small></li>
+            <li><button onclick="loadGame('./ninjavsevilcorp/index.html')">Ninja vs Evil Corp</button><small>A ninja action and stealth game.</small></li>
+            <li><button onclick="loadGame('./pacman/index.html')">Pac-Man</button><small>The classic arcade maze game.</small></li>
+            <li><button onclick="loadGame('./paperio2/index.html')">Paper.io 2</button><small>Claim territory against other players.</small></li>
+            <li><button onclick="loadGame('./papery-planes/index.html')">Papery Planes</button><small>A simple paper airplane flight game.</small></li>
+            <li><button onclick="loadGame('./q1k3/index.html')">Q1K3</button><small>A tiny, Quake-inspired shooter.</small></li>
+            <li><button onclick="loadGame('./racer/index.html')">Racer</button><small>An avoidance racing game.</small></li>
+            <li><button onclick="loadGame('./radiusraid/index.html')">Radius Raid</button><small>A circle-based space shooter.</small></li>
+            <li><button onclick="loadGame('./retrohaunt/index.html')">Retro Haunt</button><small>A retro-style horror game.</small></li>
+            <li><button onclick="loadGame('./roadblocks/index.html')">Road Blocks</button><small>A simple car avoidance game.</small></li>
+            <li><button onclick="loadGame('./rolly-vortex/index.html')">Rolly Vortex</button><small>A fast-paced tunnel avoidance game.</small></li>
+            <li><button onclick="loadGame('./sand-game/index.html')">The Sand Game</button><small>A falling sand physics simulator.</small></li>
+            <li><button onclick="loadGame('./scrapmetal/index.html')">Scrap Metal</button><small>3D car physics and destruction sandbox.</small></li>
+            <li><button onclick="loadGame('./shuttledeck/index.html')">Shuttle Deck</button><small>A minimalist space shuttle puzzle/action game.</small></li>
+            <li><button onclick="loadGame('./soldier-legend/index.html')">Soldier Legend</button><small>A side-scrolling action-shooter.</small></li>
+            <li><button onclick="loadGame('./Squid Gun Fest/index.html')">Squid Gun Fest</button><small>A chaotic multiplayer shooting game.</small></li>
+            <li><button onclick="loadGame('./stack-bump-3d/index.html')">Stack Bump 3D</button><small>A 3D ball-smashing game.</small></li>
+            <li><button onclick="loadGame('./stack/index.html')">Stack</button><small>Building a tower as high as you can.</small></li>
+            <li><button onclick="loadGame('./Stickman-Survival/index.html')">Stickman Survival</button><small>A 2D stickman action survival game.</small></li>
+            <li><button onclick="loadGame('./superhot/index.html')">SUPERHOT (Mini)</button><small>A time-moves-when-you-move shooter.</small></li>
+            <li><button onclick="loadGame('./swerve/index.html')">Swerve</button><small>A simple line avoidance game.</small></li>
+            <li><button onclick="loadGame('./tank-trouble-2/index.html')">Tank Trouble 2</button><small>Multiplayer tank combat in a maze.</small></li>
+            <li><button onclick="loadGame('./tanuki-sunset/index.html')">Tanuki Sunset</button><small>A longboard arcade downhill racer.</small></li>
+            <li><button onclick="loadGame('./temple-run-2/index.html')">Temple Run 2</button><small>The iconic endless runner.</small></li>
+            <li><button onclick="loadGame('./tube-jumpers/index.html')">Tube Jumpers</button><small>A simple, frantic local multiplayer game.</small></li>
+            <li><button onclick="loadGame('./tunnel-rush/index.html')">Tunnel Rush</button><small>Avoid obstacles in a fast-moving tunnel.</small></li>
+            <li><button onclick="loadGame('./underrun/index.html')">Underrun</button><small>A retro platformer and shooter.</small></li>
+            <li><button onclick="loadGame('./vex3/index.html')">Vex 3</button><small>The challenging stickman platformer.</small></li>
+            <li><button onclick="loadGame('./vex4/index.html')">Vex 4</button><small>The challenging stickman platformer.</small></li>
+            <li><button onclick="loadGame('./vex5/index.html')">Vex 5</button><small>The challenging stickman platformer.</small></li>
+            <li><button onclick="loadGame('./zombs-royale/index.html')">Zombs Royale</button><small>A 2D top-down battle royale.</small></li>
+        </ul>
 
         <h2 class="category-heading">🧠 Puzzle & Strategy</h2>
         <ul class="game-list">
             <li><button onclick="loadGame('./9007199254740992/index.html')">9007199254740992</button><small>Game named after the max safe integer.</small></li>
-            </ul>
+            <li><button onclick="loadGame('./8ball-billards-classic/index.html')">8-Ball Billiards Classic</button><small>A classic pool game simulation.</small></li>
+            <li><button onclick="loadGame('./2048/index.html')">2048</button><small>The classic tile-merging puzzle game.</small></li>
+            <li><button onclick="loadGame('./2048-multitask/index.html')">2048 Multitask</button><small>The 2048 puzzle with extra challenges.</small></li>
+            <li><button onclick="loadGame('./age-of-war/index.html')">Age of War</button><small>A classic strategy/defense game.</small></li>
+            <li><button onclick="loadGame('./align-4/index.html')">Align 4 (Connect Four)</button><small>The classic four-in-a-row strategy game.</small></li>
+            <li><button onclick="loadGame('./astray/index.html')">Astray</button><small>A maze or puzzle game where you are lost.</small></li>
+            <li><button onclick="loadGame('./bad-ice-cream-2/index.html')">Bad Ice Cream 2</button><small>Co-op puzzle collection game.</small></li>
+            <li><button onclick="loadGame('./blackholesquare/index.html')">Black Hole Square</button><small>A minimalist rotation puzzle.</small></li>
+            <li><button onclick="loadGame('./bloxors/index.html')">Bloxorz</button><small>The classic 3D block rolling puzzle game.</small></li>
+            <li><button onclick="loadGame('./bounceback/index.html')">Bounceback</button><small>A physics-based ball and paddle puzzle.</small></li>
+            <li><button onclick="loadGame('./breaklock/index.html')">Breaklock</button><small>A puzzle game involving locks and keys.</small></li>
+            <li><button onclick="loadGame('./captaincallisto/index.html')">Captain Callisto</button><small>A puzzle platformer about space exploration.</small></li>
+            <li><button onclick="loadGame('./cell-machine/index.html')">Cell Machine</button><small>A cellular automata puzzle game.</small></li>
+            <li><button onclick="loadGame('./chess/index.html')">Chess</button><small>The traditional board game of strategy.</small></li>
+            <li><button onclick="loadGame('./chromaincident/index.html')">Chroma Incident</button><small>A color-mixing puzzle game.</small></li>
+            <li><button onclick="loadGame('./connect3/index.html')">Connect 3</button><small>A three-in-a-row matching puzzle.</small></li>
+            <li><button onclick="loadGame('./cupcake2048/index.html')">Cupcake 2048</button><small>A delicious, themed 2048 clone.</small></li>
+            <li><button onclick="loadGame('./deal-or-no-deal/index.html')">Deal or No Deal</button><small>The classic probability game show.</small></li>
+            <li><button onclick="loadGame('./doge2048/index.html')">Doge 2048</button><small>A meme-themed version of 2048.</small></li>
+            <li><button onclick="loadGame('./factoryballs/index.html')">Factory Balls</button><small>A clever ball-painting puzzle game.</small></li>
+            <li><button onclick="loadGame('./factoryballsforever/index.html')">Factory Balls Forever</button><small>More clever ball-painting puzzles.</small></li>
+            <li><button onclick="loadGame('./flappy-2048/index.html')">Flappy 2048</button><small>A combination of Flappy Bird and 2048.</small></li>
+            <li><button onclick="loadGame('./hextris/index.html')">Hextris</button><small>A fun, hexagonal Tetris clone.</small></li>
+            <li><button onclick="loadGame('./konnekt/index.html')">Konnekt</button><small>A simple connection puzzle game.</small></li>
+            <li><button onclick="loadGame('./meme2048/index.html')">Meme 2048</button><small>A meme-themed tile-merging game.</small></li>
+            <li><button onclick="loadGame('./minesweeper/index.html')">Minesweeper</button><small>The classic deduction puzzle game.</small></li>
+            <li><button onclick="loadGame('./packabunchas/index.html')">Packabunchas</button><small>A spatial packing puzzle game.</small></li>
+            <li><button onclick="loadGame('./polybranch/index.html')">Polybranch</button><small>A 3D spatial puzzle and avoidance game.</small></li>
+            <li><button onclick="loadGame('./push-your-luck/index.html')">Push Your Luck</button><small>A high-risk, high-reward strategy game.</small></li>
+            <li><button onclick="loadGame('./pushback/index.html')">Pushback</button><small>A strategic puzzle game with force mechanics.</small></li>
+            <li><button onclick="loadGame('./sleepingbeauty/index.html')">Sleeping Beauty</button><small>A classic puzzle game.</small></li>
+            <li><button onclick="loadGame('./solitaire/index.html')">Solitaire</button><small>The classic card game.</small></li>
+            <li><button onclick="loadGame('./tetris/index.html')">Tetris</button><small>The classic block-falling puzzle game.</small></li>
+            <li><button onclick="loadGame('./the-lost-ball/index.html')">The Lost Ball</button><small>A simple maze or physics puzzle.</small></li>
+            <li><button onclick="loadGame('./themazeofspacegoblins/index.html')">The Maze of Space Goblins</button><small>A sci-fi maze/dungeon crawler.</small></li>
+            <li><button onclick="loadGame('./there-is-no-game/index.html')">There Is No Game</button><small>A famous, hilarious meta-puzzle game.</small></li>
+            <li><button onclick="loadGame('./towermaster/index.html')">Tower Master</button><small>A strategic building and defense game.</small></li>
+            <li><button onclick="loadGame('./wordle/index.html')">Wordle</button><small>The popular word-guessing game.</small></li>
+            <li><button onclick="loadGame('./worlds-hardest-game/index.html')">World's Hardest Game</button><small>The title says it all: a very difficult puzzle.</small></li>
+            <li><button onclick="loadGame('./xx142-b2exe/index.html')">xx142-b2.exe</button><small>A creepy, puzzle-heavy horror game.</small></li>
+        </ul>
 
         <h2 class="category-heading">✨ Idle, Sandbox, & Misc.</h2>
         <ul class="game-list">
             <li><button onclick="loadGame('./2020-game/index.html')">2020 Game</button><small>A game based on the events of the year 2020.</small></li>
-            </ul>
+            <li><button onclick="loadGame('./achievementunlocked/index.html')">Achievement Unlocked</button><small>An exploration game focused on achievements.</small></li>
+            <li><button onclick="loadGame('./adarkroom/index.html')">A Dark Room</button><small>A minimalist, text-based adventure game.</small></li>
+            <li><button onclick="loadGame('./aspiring-artist/index.html')">Aspiring Artist</button><small>A simple drawing or creative game.</small></li>
+            <li><button onclick="loadGame('./backcountry/index.html')">Backcountry</button><small>A hiking or outdoor adventure game.</small></li>
+            <li><button onclick="loadGame('./backflip-dive-3d/index.html')">Backflip Dive 3D</button><small>A 3D simulation of diving and backflips.</small></li>
+            <li><button onclick="loadGame('./chill-radio/index.html')">Chill Radio</button><small>A simple app to listen to relaxing music.</small></li>
+            <li><button onclick="loadGame('./cookie-clicker/index.html')">Cookie Clicker (Official)</button><small>The incredibly addictive idle clicker game.</small></li>
+            <li><button onclick="loadGame('./cookieclicker/index.html')">Cookie Clicker (Alternate)</button><small>Another version of the idle game.</small></li>
+            <li><button onclick="loadGame('./craftmine/index.html')">Craftmine</button><small>A 2D crafting and mining simulator.</small></li>
+            <li><button onclick="loadGame('./csgo-clicker/index.html')">CS:GO Clicker</button><small>An idle clicker based on the shooter.</small></li>
+            <li><button onclick="loadGame('./DogeMiner/index.html')">Doge Miner</button><small>A popular idle clicker game.</small></li>
+            <li><button onclick="loadGame('./doodle-jump/index.html')">Doodle Jump</button><small>The endless vertical jumping game.</small></li>
+            <li><button onclick="loadGame('./ducklife3/index.html')">Duck Life 3</button><small>Train your duck for racing championships.</small></li>
+            <li><button onclick="loadGame('./edgenotfound/index.html')">Edge Not Found</button><small>A minimalist puzzle or exploration game.</small></li>
+            <li><button onclick="loadGame('./evil-glitch/index.html')">Evil Glitch</button><small>A horror or glitch-themed game.</small></li>
+            <li><button onclick="loadGame('./evilglitch/index.html')">Evil Glitch (Alternate)</button><small>Another version of the glitch-themed game.</small></li>
+            <li><button onclick="loadGame('./exo/index.html')">EXO</button><small>An exploration game with exoplanets.</small></li>
+            <li><button onclick="loadGame('./fake-virus/index.html')">Fake Virus</button><small>A funny simulation of a virus or pop-up.</small></li>
+            <li><button onclick="loadGame('./google-snake/index.html')">Google Snake</button><small>The classic version of the snake game.</small></li>
+            <li><button onclick="loadGame('./hackertype/index.html')">Hacker Typer</button><small>A fun app to make it look like you're coding.</small></li>
+            <li><button onclick="loadGame('./idle-breakout/index.html')">Idle Breakout</button><small>An idle game based on Breakout.</small></li>
+            <li><button onclick="loadGame('./idle-shark/index.html')">Idle Shark</button><small>An idle clicker game about a shark.</small></li>
+            <li><button onclick="loadGame('./minecraft/index.html')">Minecraft (2D)</button><small>A 2D version of the popular sandbox.</small></li>
+            <li><button onclick="loadGame('./ns-shaft/index.html')">NS-Shaft</button><small>A simple platformer where you avoid a shaft.</small></li>
+            <li><button onclick="loadGame('./OfflineParadise/index.html')">Offline Paradise</button><small>A relaxing game for when you're offline.</small></li>
+            <li><button onclick="loadGame('./particle-clicker/index.html')">Particle Clicker (Official)</button><small>An idle game about particle physics.</small></li>
+            <li><button onclick="loadGame('./particleclicker/index.html')">Particle Clicker (Alternate)</button><small>Another version of the particle game.</small></li>
+            <li><button onclick="loadGame('./sm64/index.html')">Super Mario 64</button><small>The classic N64 3D platformer running in a browser.</small></li>
+            <li><button onclick="loadGame('./snake/index.html')">Snake (Classic)</button><small>Another version of the classic snake game.</small></li>
+            <li><button onclick="loadGame('./snowbattle/index.html')">Snow Battle</button><small>A simple winter-themed shooter/game.</small></li>
+            <li><button onclick="loadGame('./soundboard/index.html')">Soundboard</button><small>A simple utility for sound effects.</small></li>
+            <li><button onclick="loadGame('./spacecompany/index.html')">Space Company</button><small>An incremental idle game about space travel.</small></li>
+            <li><button onclick="loadGame('./spacegarden/index.html')">Space Garden</button><small>A relaxing space-themed idle game.</small></li>
+            <li><button onclick="loadGame('./spacehuggers/index.html')">Space Huggers</button><small>A simple, quirky space game.</small></li>
+            <li><button onclick="loadGame('./the-final-earth/index.html')">The Final Earth</button><small>A post-apocalyptic city builder.</small></li>
+            <li><button onclick="loadGame('./townscaper/index.html')">Townscaper</button><small>A relaxing town-building sandbox game.</small></li>
+            <li><button onclick="loadGame('./trimps/index.html')">Trimps</button><small>A complex, text-based incremental game.</small></li>
+            <li><button onclick="loadGame('./tv-static/index.html')">TV Static</button><small>A simple static screen utility.</small></li>
+        </ul>
         
     </div>
 
-    <button id="panic-button" title="Quick Exit (Keyboard Shortcut: ESC)">
+    <button id="panic-button" title="Quick Exit (Keyboard Shortcut: `)">
         <span style="font-size: 1.2em;">&#x274C;</span>
     </button>
     
@@ -248,17 +395,17 @@
             gameFrame.style.display = 'none'; // Hide the game content
             
             // 2. Redirect instantly to the safe page
-            // Use replace() so the game index does not appear in browser history
-            window.location.replace('https://2000484.github.io/https-nsd.schoology.com-home.github.io/');
+            // Using a popular, educational, and non-suspicious site for a safe redirect
+            window.location.replace('https://www.google.com/search?q=safe+online+research+for+students'); 
         }
 
         // Attach the panic function to the button click
         panicButton.addEventListener('click', triggerPanic);
 
-        // Attach the panic function to the Escape key press
+        // Attach the panic function to the backtick (`) key press
         document.addEventListener('keydown', function(event) {
-            // Check for the Escape key
-            if (event.key === 'Escape') {
+            // Check for the Backtick key (Key code is usually 192, but 'key' value is more reliable)
+            if (event.key === '`' || event.key === '~') {
                 event.preventDefault(); // Prevents default browser actions
                 triggerPanic();
             }
