@@ -5,76 +5,219 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My HTML Game Collection Index</title>
     <style>
+        :root {
+            --color-primary: #024f7d; /* Dark Blue */
+            --color-secondary: #0677ba; /* Schoology Blue */
+            --color-light: #f9fafb; /* Light Gray */
+            --color-accent: #ff8c00; /* Orange Accent */
+            --bg-default: #f4f4f4;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: var(--font-family);
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            padding: 0;
+            background-color: var(--bg-default);
             color: #333;
+            transition: background-color 0.1s; /* For the panic button effect */
         }
+        
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 1200px;
+            margin: 50px auto;
             background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
-            color: #0677ba;
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
-            margin-bottom: 25px;
+            color: var(--color-primary);
+            font-weight: 700;
+            font-size: 2.5em;
+            margin-bottom: 5px;
         }
+
+        p.subtitle {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+
         .game-list {
             list-style: none;
             padding: 0;
+            /* Modern Grid Layout */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
+
         .game-list li {
-            margin-bottom: 15px;
-            background: #e8f0fd;
-            padding: 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            background: var(--color-light);
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            border-left: 5px solid var(--color-secondary);
         }
+
         .game-list li:hover {
-            background-color: #d4e8fa;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
+
         .game-list a {
             text-decoration: none;
-            color: #024f7d;
-            font-size: 1.2em;
-            font-weight: bold;
+            color: var(--color-primary);
+            font-size: 1.3em;
+            font-weight: 600;
             display: block;
         }
-        .game-list a:hover {
-            text-decoration: underline;
-        }
+
         .game-list small {
-            color: #666;
+            color: #777;
             display: block;
             margin-top: 5px;
+            font-size: 0.9em;
         }
+
+        .game-list a:hover {
+            color: var(--color-secondary);
+        }
+
+        /* Panic Button Styling */
+        #panic-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 15px 25px;
+            background-color: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: 50%; /* Make it a circular button */
+            font-weight: bold;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.2s;
+            z-index: 1000;
+            height: 60px;
+            width: 60px;
+            line-height: 30px;
+            text-align: center;
+        }
+
+        #panic-button:hover {
+            background-color: #e67e00;
+        }
+
+        /* Tooltip style for hover (Optional, for simple hover) */
+        #panic-button::after {
+            content: 'Shortcut: ESC';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            margin-left: 15px;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            font-size: 0.9em;
+        }
+
+        #panic-button:hover::after {
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>My HTML Game Collection Index</h1>
-        <p>Click on any game below to start playing!</p>
+        <h1>My HTML Game Collection Index (38 Games)</h1>
+        <p class="subtitle">Click on any game below to start playing!</p>
 
         <ul class="game-list">
             
-            <li>
-                <a href="./2048/index.html">2048 Game</a>
-                <small>The popular tile-merging puzzle game.</small>
-            </li>
+            <li><a href="./1/index.html">Game 1 (General)</a><small>The first uploaded game.</small></li>
+            <li><a href="./1v1lol/index.html">1v1.LOL Clone</a><small>First-person shooting and building game.</small></li>
+            <li><a href="./1v1space/index.html">1v1 Space</a><small>A space-themed one-on-one combat game.</small></li>
+            <li><a href="./8ball-billards-classic/index.html">8-Ball Billiards Classic</a><small>A classic pool game simulation.</small></li>
+            <li><a href="./10-minutes-till-dawn/index.html">10 Minutes Till Dawn</a><small>A survival shooter against the clock.</small></li>
+            <li><a href="./100ng/index.html">100NG</a><small>Game from the 100 Games collection.</small></li>
+            <li><a href="./2020-game/index.html">2020 Game</a><small>A game based on the events of the year 2020.</small></li>
+            <li><a href="./2048/index.html">2048</a><small>The classic tile-merging puzzle game.</small></li>
+            <li><a href="./2048-multitask/index.html">2048 Multitask</a><small>The 2048 puzzle with extra challenges.</small></li>
+            <li><a href="./9007199254740992/index.html">9007199254740992</a><small>Game named after the max safe integer.</small></li>
+            <li><a href="./achievementunlocked/index.html">Achievement Unlocked</a><small>An exploration game focused on achievements.</small></li>
+            <li><a href="./adarkroom/index.html">A Dark Room</a><small>A minimalist, text-based adventure game.</small></li>
+            <li><a href="./adrenalinechallenge/index.html">Adrenaline Challenge</a><small>A fast-paced reflex and action game.</small></li>
+            <li><a href="./age-of-war/index.html">Age of War</a><small>A classic strategy/defense game.</small></li>
+            <li><a href="./alien-invaders-io/index.html">Alien Invaders IO</a><small>Multiplayer alien shooter game.</small></li>
+            <li><a href="./alienhominid/index.html">Alien Hominid</a><small>A stylized action-shooter game.</small></li>
+            <li><a href="./align-4/index.html">Align 4 (Connect Four)</a><small>The classic four-in-a-row strategy game.</small></li>
+            <li><a href="./among-us/index.html">Among Us</a><small>The imposter deduction social game.</small></li>
+            <li><a href="./angry-birds/index.html">Angry Birds</a><small>The physics-based bird-slinging puzzle game.</small></li>
+            <li><a href="./anti-terrorist-rush/index.html">Anti-Terrorist Rush</a><small>A first-person combat shooter game.</small></li>
+            <li><a href="./arcade-wizard/index.html">Arcade Wizard</a><small>A retro pixel-art dungeon crawler.</small></li>
+            <li><a href="./asciispace/index.html">ASCII Space</a><small>A space game using text characters.</small></li>
+            <li><a href="./aspiring-artist/index.html">Aspiring Artist</a><small>A simple drawing or creative game.</small></li>
+            <li><a href="./asteroids/index.html">Asteroids</a><small>The classic vector arcade shooter.</small></li>
+            <li><a href="./astray/index.html">Astray</a><small>A maze or puzzle game where you are lost.</small></li>
+            <li><a href="./avalanche/index.html">Avalanche</a><small>A survival game against falling objects.</small></li>
+            <li><a href="./awesome-tanks-2/index.html">Awesome Tanks 2</a><small>Top-down tank battle arcade game.</small></li>
+            <li><a href="./backcountry/index.html">Backcountry</a><small>A hiking or outdoor adventure game.</small></li>
+            <li><a href="./backflip-dive-3d/index.html">Backflip Dive 3D</a><small>A 3D simulation of diving and backflips.</small></li>
+            <li><a href="./backrooms/index.html">The Backrooms</a><small>A horror exploration game.</small></li>
+            <li><a href="./bad-ice-cream-2/index.html">Bad Ice Cream 2</a><small>Co-op puzzle collection game.</small></li>
+            <li><a href="./bad-ice-cream-3/index.html">Bad Ice Cream 3</a><small>The third installment of the co-op puzzle game.</small></li>
+            <li><a href="./DogeMiner/index.html">Doge Miner</a><small>A popular idle clicker game.</small></li>
+            <li><a href="./FullScreenMario/index.html">Full Screen Mario</a><small>A browser-based Super Mario clone.</small></li>
+            <li><a href="./HexGL/index.html">HexGL</a><small>A futuristic, fast-paced racing game.</small></li>
+            <li><a href="./Offline Paradise/index.html">Offline Paradise</a><small>A relaxing game for when you're offline.</small></li>
+            <li><a href="./Squid Gun Fest/index.html">Squid Gun Fest</a><small>A chaotic multiplayer shooting game.</small></li>
+            <li><a href="./Stickman-Survival/index.html">Stickman Survival</a><small>A 2D stickman action survival game.</small></li>
             
-            </ul>
+        </ul>
         
-        <p style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px; font-size: 0.9em; text-align: center;">
-            <a href="https://github.com/2000484/https-nsd.schoology.com-home.github.io" target="_blank">Back to Repository</a>
-        </p>
-
     </div>
+
+    <button id="panic-button" title="Quick Exit (Keyboard Shortcut: ESC)">
+        <span style="font-size: 1.2em;">&#x274C;</span>
+    </button>
+    
+    <script>
+        function triggerPanic() {
+            // 1. Instant white screen effect
+            document.body.style.backgroundColor = 'white';
+            document.body.innerHTML = '';
+            
+            // 2. Wait a moment (instantaneous to the user) and reload the index
+            setTimeout(function() {
+                window.location.href = './'; // Navigates to the root (which is games.html if it's the index)
+                // If you want to force reload the current page:
+                // window.location.reload(); 
+            }, 50); // Small delay to ensure the white screen flashes
+        }
+
+        // Attach the panic function to the button click
+        document.getElementById('panic-button').addEventListener('click', triggerPanic);
+
+        // Attach the panic function to the Escape key press
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                event.preventDefault(); // Prevents default browser actions
+                triggerPanic();
+            }
+        });
+    </script>
 </body>
 </html>
