@@ -9,12 +9,12 @@
     <style>
         /* --- DARK MODE THEME --- */
         :root {
-            --color-bg-primary: #121212; /* Very Dark Gray */
-            --color-bg-secondary: #1f1f1f; /* Slightly lighter for cards */
-            --color-text-light: #e0e0e0; /* Light Gray Text */
-            --color-text-accent: #90caf9; /* Soft Blue Accent */
+            --color-bg-primary: #121212;
+            --color-bg-secondary: #1f1f1f;
+            --color-text-light: #e0e0e0;
+            --color-text-accent: #90caf9;
             --color-input-border: #333333;
-            --color-accent-panic: #ff5252; /* Bright Red for Panic */
+            --color-accent-panic: #ff5252;
             --font-family: 'Roboto', sans-serif;
             --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
@@ -152,7 +152,7 @@
             font-weight: 400;
         }
 
-        /* --- IFRAME AND PANIC ELEMENTS (Critical changes for the new toggle logic) --- */
+        /* --- IFRAME AND PANIC ELEMENTS --- */
         
         /* The main game iframe */
         #game-frame {
@@ -166,7 +166,7 @@
             display: none; 
         }
 
-        /* The new safe site container (loads the safe site, covering everything) */
+        /* The safe site container/cover */
         #safe-site-cover {
             position: fixed;
             top: 0;
@@ -174,9 +174,9 @@
             width: 100%;
             height: 100%;
             border: none;
-            z-index: 1005; /* MUST be higher than game-frame */
-            display: none; /* Initially hidden */
-            background-color: white; /* Instant white screen flash effect */
+            z-index: 1005; /* MUST be highest */
+            display: none; 
+            background-color: white; 
         }
         
         /* Iframe for the safe site */
@@ -187,7 +187,7 @@
             display: block;
         }
 
-        /* Panic Button (Stays fixed over the game frame, but under the safe site cover) */
+        /* Panic Button (Visible only when game is loaded) */
         #panic-button {
             position: fixed;
             bottom: 30px;
@@ -201,10 +201,10 @@
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(255, 82, 82, 0.4); 
             transition: background-color 0.2s, transform 0.1s;
-            z-index: 999; /* Lower than game-frame when game is running */
+            z-index: 1001; /* Over the game, under the cover */
             height: 45px; 
             padding: 0 18px;
-            display: none; /* Hidden by default, only shows when game is active */
+            display: none; 
             align-items: center;
             gap: 8px;
             text-transform: uppercase;
@@ -215,7 +215,6 @@
             transform: scale(1.05);
         }
         
-        /* Show the exit button text only when necessary */
         #panic-button span:last-child {
             font-weight: 400;
             font-size: 0.85em;
@@ -228,7 +227,12 @@
     <iframe id="game-frame" src="" allowfullscreen></iframe>
 
     <div id="safe-site-cover">
-        <iframe id="safe-site-iframe" src="https://2000484.github.io/https-nsd.schoology.com-home/" allowfullscreen></iframe>
+        <iframe 
+            id="safe-site-iframe" 
+            src="https://my.nsd.org" 
+            allowfullscreen 
+            sandbox="allow-same-origin allow-scripts allow-popups"
+        ></iframe>
     </div>
 
     <button id="panic-button" title="Quick Exit (Keyboard Shortcut: `)">
@@ -408,14 +412,19 @@
             <li data-name="stack bump 3d ball-smashing"><button onclick="loadGame('./stack-bump-3d/index.html')"><span class="game-title">Stack Bump 3D</span></button><small>A 3D ball-smashing game.</small></li>
             <li data-name="stickman survival 2d action"><button onclick="loadGame('./Stickman-Survival/index.html')"><span class="game-title">Stickman Survival</span></button><small>A 2D stickman action survival game.</small></li>
             <li data-name="swerve line avoidance simple"><button onclick="loadGame('./swerve/index.html')"><span class="game-title">Swerve</span></button><small>A simple line avoidance game.</small></li>
-            <li data-name="tanuki sunset longboard arcade downhill racer"><button onclick="loadGame('./tanuki-sunset/index.html')"><span class="game-title">Tanuki Sunset</span></button><small>A longboard arcade downhill racer.</small></li>
+            <li data-name="tanuki sunset longboard arcade downhill racer"><button onclick="loadGame('./tanuki-sunset/index.html')"><span class="game-title">Tanuki Sunset</span</button><small>A longboard arcade downhill racer.</small></li>
             <li data-name="the lost ball maze physics puzzle"><button onclick="loadGame('./the-lost-ball/index.html')"><span class="game-title">The Lost Ball</span></button><small>A simple maze or physics puzzle.</small></li>
             <li data-name="the maze of space goblins sci-fi dungeon crawler"><button onclick="loadGame('./themazeofspacegoblins/index.html')"><span class="game-title">The Maze of Space Goblins</span></button><small>A sci-fi maze/dungeon crawler.</small></li>
             <li data-name="towermaster strategic building defense"><button onclick="loadGame('./towermaster/index.html')"><span class="game-title">Tower Master</span></button><small>A strategic building and defense game.</small></li>
             <li data-name="tv static utility screen"><button onclick="loadGame('./tv-static/index.html')"><span class="game-title">TV Static</span></button><small>A simple static screen utility.</small></li>
             <li data-name="underrun retro platformer shooter"><button onclick="loadGame('./underrun/index.html')"><span class="game-title">Underrun</span></button><small>A retro platformer and shooter.</small></li>
+            <li data-name="vex3 stickman platformer challenging"><button onclick="loadGame('./vex3/index.html')"><span class="game-title">Vex 3</span></button><small>The challenging stickman platformer.</small></li>
+            <li data-name="vex4 stickman platformer challenging"><button onclick="loadGame('./vex4/index.html')"><span class="game-title">Vex 4</span></button><small>The challenging stickman platformer.</small></li>
+            <li data-name="vex5 stickman platformer challenging"><button onclick="loadGame('./vex5/index.html')"><span class="game-title">Vex 5</span></button><small>The challenging stickman platformer.</small></li>
+            <li data-name="vex6 stickman platformer challenging"><button onclick="loadGame('./vex6/index.html')"><span class="game-title">Vex 6</span></button><small>The challenging stickman platformer.</small></li>
             <li data-name="xx142 b2exe creepy puzzle horror"><button onclick="loadGame('./xx142-b2exe/index.html')"><span class="game-title">xx142-b2.exe</span></button><small>A creepy, puzzle-heavy horror game.</small></li>
-            </ul>
+            <li data-name="zombs royale 2d battle royale"><button onclick="loadGame('./zombs-royale/index.html')"><span class="game-title">Zombs Royale</span></button><small>A 2D top-down battle royale.</small></li>
+        </ul>
         
     </div>
 
@@ -429,48 +438,58 @@
         const safeSiteCover = document.getElementById('safe-site-cover');
 
         // --- CORE GAME LOADING AND PANIC FUNCTIONS (TOGGLE LOGIC) ---
-        let gameIsActive = false;
+        let gameIsActive = false; // Tracks if a game is currently displayed (not the main hub)
+        let panicIsActive = false; // Tracks if the safe site cover is currently displayed
         
         function loadGame(url) {
             gameFrame.src = url;
             gameFrame.style.display = 'block'; 
-            panicButton.style.display = 'flex'; // Show the panic button
-            panicButton.style.zIndex = '1001'; // Ensure it's over the game iframe
+            panicButton.style.display = 'flex'; 
             container.style.display = 'none';   
             document.body.style.overflow = 'hidden'; 
             gameIsActive = true;
-            window.focus(); // Attempt to give main window focus
+            panicIsActive = false; // Ensure panic state is off when a game loads
+            safeSiteCover.style.display = 'none'; // Ensure cover is hidden
+            window.focus(); 
         }
 
-        function triggerPanic() {
-            if (gameIsActive) {
-                // If a game is active, pressing the key/button HIDES the game and SHOWS the cover
-                
-                // 1. Show the Safe Site Cover to obscure the game and the button
-                safeSiteCover.style.display = 'block'; 
-                
-                // 2. Move the Panic Button to a safe, hidden Z-index
-                panicButton.style.zIndex = '500'; // Moves it under the cover
-                
-                gameIsActive = false; // The panic state is now active
-                
-            } else {
-                // If the panic state is active (or on the main page), pressing the key/button 
-                // HIDES the cover and RETURNS to the game (if one was loaded) or the main hub.
-                
-                // 1. Hide the Safe Site Cover
+        function togglePanic() {
+            // Check if we are currently in the panic state
+            if (panicIsActive) {
+                // EXITING PANIC STATE (Back to game/hub)
                 safeSiteCover.style.display = 'none';
+                panicButton.style.zIndex = '1001'; // Button back over game
+                panicIsActive = false;
                 
-                // 2. Show the main content/game again
-                if (gameFrame.style.display === 'block') {
-                    // Resume game
-                    gameIsActive = true;
-                    panicButton.style.zIndex = '1001'; // Bring button back over the game
+                if (gameIsActive) {
+                    // Back to game
+                    gameFrame.style.display = 'block';
+                    panicButton.style.display = 'flex';
                 } else {
-                    // Back to main menu
+                    // Back to main hub
                     container.style.display = 'block';
                     panicButton.style.display = 'none';
                     document.body.style.overflow = 'auto';
+                }
+            } else {
+                // ENTERING PANIC STATE (Cover everything)
+                
+                // 1. Check if a game is loaded before initiating the panic state
+                if (gameIsActive || container.style.display !== 'none') {
+                     // 2. Show the Safe Site Cover (white flash)
+                    safeSiteCover.style.display = 'block'; 
+                    
+                    // 3. Move the Panic Button under the cover so it can't be seen/clicked
+                    panicButton.style.zIndex = '500'; 
+                    
+                    // 4. Hide the game and/or hub
+                    if (gameIsActive) {
+                        gameFrame.style.display = 'none';
+                    } else {
+                        container.style.display = 'none';
+                    }
+                    
+                    panicIsActive = true;
                 }
             }
         }
@@ -480,17 +499,17 @@
         document.addEventListener('keydown', function(event) {
             // Check for backtick (` key) and tilde (~ key)
             if (event.key === '`' || event.key === '~' || event.keyCode === 192) {
-                // Only prevent default if a game is running or the cover is up
-                if (gameFrame.style.display === 'block' || safeSiteCover.style.display === 'block') {
-                    event.preventDefault(); // Stop the default action (best effort to capture)
-                    event.stopImmediatePropagation(); // Prevent other handlers
-                    triggerPanic();
+                // If the game hub is active OR the panic screen is active, trigger the toggle
+                if (gameIsActive || panicIsActive) {
+                    event.preventDefault(); 
+                    event.stopImmediatePropagation(); 
+                    togglePanic();
                 }
             }
-        }, true); // **'true' flag ensures this listener fires FIRST.**
+        }, true); // 'true' flag ensures this listener fires FIRST, guaranteeing capture.
 
         // Attach panic function to the button click
-        panicButton.addEventListener('click', triggerPanic);
+        panicButton.addEventListener('click', togglePanic);
 
 
         // --- SEARCH FUNCTIONALITY ---
