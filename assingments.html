@@ -201,7 +201,7 @@
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(255, 82, 82, 0.4); 
             transition: background-color 0.2s, transform 0.1s;
-            z-index: 1001; /* Over the game, under the cover */
+            z-index: 1000; /* Over the game, under the cover */
             height: 45px; 
             padding: 0 18px;
             display: none; 
@@ -243,7 +243,7 @@
     <div class="header-content-wrapper" id="container">
         <header>
             <h1>The Arcade Hub</h1>
-            <p class="subtitle">Search 130+ games below. Press `` ` `` (backtick) at any time to instantly hide the game.</p>
+            <p class="subtitle">Search 130+ games below. Press ` at any time to instantly hide the game.</p>
 
             <div id="search-container">
                 <span class="search-icon">&#x1F50D;</span>
@@ -352,8 +352,8 @@
             <li data-name="cookie clicker alternate idle clicker"><button onclick="loadGame('./cookieclicker/index.html')"><span class="game-title">Cookie Clicker (Alternate)</span></button><small>Another version of the idle game.</small></li>
             <li data-name="craftmine 2d crafting mining simulator"><button onclick="loadGame('./craftmine/index.html')"><span class="game-title">Craftmine</span></button><small>A 2D crafting and mining simulator.</small></li>
             <li data-name="csgo clicker idle shooter"><button onclick="loadGame('./csgo-clicker/index.html')"><span class="game-title">CS:GO Clicker</span></button><small>An idle clicker based on the shooter.</small></li>
-            <li data-name="ctr car tuning race"><button onclick="loadGame('./ctr/index.html')"><span class="game-title">Car Tuning Race</span></button><small>Vehicle tuning and racing simulator.</small></li>
-            <li data-name="ctr holiday car tuning race"><button onclick="loadGame('./ctr-holiday/index.html')"><span class="game-title">Car Tuning Race (Holiday)</span></button><small>A holiday version of the racing game.</small></li>
+            <li data-name="cut the rope"><button onclick="loadGame('./ctr/index.html')"><span class="game-title">Car Tuning Race</span></button><small>Vehicle tuning and racing simulator.</small></li>
+            <li data-name="cut the rope (holiday)"><button onclick="loadGame('./ctr-holiday/index.html')"><span class="game-title">Car Tuning Race (Holiday)</span></button><small>A holiday version of the racing game.</small></li>
             <li data-name="ctr tr car tuning race time rush"><button onclick="loadGame('./ctr-tr/index.html')"><span class="game-title">Car Tuning Race (Time Rush)</span></button><small>A time-trial version of the racing game.</small></li>
             <li data-name="cupcake 2048 themed tile-merging"><button onclick="loadGame('./cupcake2048/index.html')"><span class="game-title">Cupcake 2048</span></button><small>A delicious, themed 2048 clone.</small></li>
             <li data-name="death run 3d intense 3d tunnel runner"><button onclick="loadGame('./death-run-3d/index.html')"><span class="game-title">Death Run 3D</span></button><small>Intensely fast 3D tunnel runner.</small></li>
@@ -496,8 +496,8 @@
 
 
         // --- KEYBOARD HOTKEY FIX (Aggressive Capture) ---
-        document.addEventListener('keydown', function(event) {
-            // Check for backtick (` key) and tilde (~ key)
+    if (gameFrame && gameFrame.contentWindow) {
+        gameFrame.contentWindow.document.addEventListener('keydown', function(event) {
             if (event.key === '`' || event.key === '~' || event.keyCode === 192) {
                 // If the game hub is active OR the panic screen is active, trigger the toggle
                 if (gameIsActive || panicIsActive) {
