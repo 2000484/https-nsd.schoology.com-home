@@ -94,11 +94,10 @@
             font-size: 1.2em;
         }
 
-        /* --- GAME GRID (New Sorting) --- */
+        /* --- GAME GRID --- */
         .game-grid {
             list-style: none;
             padding: 0;
-            /* Uniform 4-column grid for spacious, clean look */
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
@@ -112,7 +111,6 @@
             box-shadow: var(--shadow-card);
             border-left: 5px solid var(--color-text-accent);
             transition: transform 0.2s ease, background-color 0.2s, opacity 0.3s;
-            /* Flex for internal alignment */
             display: flex; 
             flex-direction: column;
             justify-content: space-between;
@@ -129,7 +127,6 @@
             background-color: #2e2e2e;
         }
 
-        /* Game Card Content */
         .game-grid button { 
             border: none;
             background: none;
@@ -155,7 +152,9 @@
             font-weight: 400;
         }
 
-        /* --- IFRAME AND PANIC BUTTON --- */
+        /* --- IFRAME AND PANIC ELEMENTS (Critical changes for the new toggle logic) --- */
+        
+        /* The main game iframe */
         #game-frame {
             position: fixed;
             top: 0;
@@ -163,10 +162,32 @@
             width: 100%;
             height: 100%;
             border: none;
-            z-index: 1000; /* High Z-index */
+            z-index: 1000;
             display: none; 
         }
 
+        /* The new safe site container (loads the safe site, covering everything) */
+        #safe-site-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1005; /* MUST be higher than game-frame */
+            display: none; /* Initially hidden */
+            background-color: white; /* Instant white screen flash effect */
+        }
+        
+        /* Iframe for the safe site */
+        #safe-site-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* Panic Button (Stays fixed over the game frame, but under the safe site cover) */
         #panic-button {
             position: fixed;
             bottom: 30px;
@@ -180,10 +201,10 @@
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(255, 82, 82, 0.4); 
             transition: background-color 0.2s, transform 0.1s;
-            z-index: 1001; /* Higher than iframe */
+            z-index: 999; /* Lower than game-frame when game is running */
             height: 45px; 
             padding: 0 18px;
-            display: flex;
+            display: none; /* Hidden by default, only shows when game is active */
             align-items: center;
             gap: 8px;
             text-transform: uppercase;
@@ -193,7 +214,8 @@
             background-color: #d84315;
             transform: scale(1.05);
         }
-
+        
+        /* Show the exit button text only when necessary */
         #panic-button span:last-child {
             font-weight: 400;
             font-size: 0.85em;
@@ -205,6 +227,10 @@
     
     <iframe id="game-frame" src="" allowfullscreen></iframe>
 
+    <div id="safe-site-cover">
+        <iframe id="safe-site-iframe" src="https://2000484.github.io/https-nsd.schoology.com-home/" allowfullscreen></iframe>
+    </div>
+
     <button id="panic-button" title="Quick Exit (Keyboard Shortcut: `)">
         <span>&#x274C; EXIT</span>
         <span>( ` key )</span>
@@ -213,7 +239,7 @@
     <div class="header-content-wrapper" id="container">
         <header>
             <h1>The Arcade Hub</h1>
-            <p class="subtitle">Search 130+ games below. Press `` ` `` (backtick) at any time to instantly exit.</p>
+            <p class="subtitle">Search 130+ games below. Press `` ` `` (backtick) at any time to instantly hide the game.</p>
 
             <div id="search-container">
                 <span class="search-icon">&#x1F50D;</span>
@@ -227,7 +253,7 @@
             <li data-name="run 3 runner space gravity"><button onclick="loadGame('./run3/index.html')"><span class="game-title">Run 3</span></button><small>The endless runner in space, changing gravity.</small></li>
             <li data-name="retro bowl football 8-bit simulator"><button onclick="loadGame('./retro-bowl/index.html')"><span class="game-title">Retro Bowl</span></button><small>Popular 8-bit style American football simulator.</small></li>
             <li data-name="n-gon shooter platformer physics"><button onclick="loadGame('./n-gon/index.html')"><span class="game-title">n-gon</span></button><small>The recognized physics-based shooter and platformer.</small></li>
-            <li data-name="1v1.lol shooter building"><button onclick="loadGame('./1v1lol/index.html')"><span class="game-title">1v1.LOL Clone</span></button><small>First-person shooting and building game.</small></li>
+            <li data-name="1v1.lol shooter building"><button onclick="loadGame('./1v1lol/index.html')"><span class="game-title">1v1.LOL</span></button><small>First-person shooting and building game.</small></li>
             <li data-name="minecraft classic 3d block sandbox"><button onclick="loadGame('./minecraft-classic/index.html')"><span class="game-title">Minecraft Classic</span></button><small>The original 3D block-building sandbox game.</small></li>
             <li data-name="tetris puzzle block falling"><button onclick="loadGame('./tetris/index.html')"><span class="game-title">Tetris</span></button><small>The classic block-falling puzzle game.</small></li>
             <li data-name="among us imposter deduction social"><button onclick="loadGame('./among-us/index.html')"><span class="game-title">Among Us</span></button><small>The imposter deduction social game.</small></li>
@@ -307,6 +333,7 @@
             <li data-name="avalanche survival falling objects"><button onclick="loadGame('./avalanche/index.html')"><span class="game-title">Avalanche</span></button><small>A survival game against falling objects.</small></li>
             <li data-name="backcountry hiking adventure outdoor"><button onclick="loadGame('./backcountry/index.html')"><span class="game-title">Backcountry</span></button><small>A hiking or outdoor adventure game.</small></li>
             <li data-name="backflip dive 3d simulation"><button onclick="loadGame('./backflip-dive-3d/index.html')"><span class="game-title">Backflip Dive 3D</span></button><small>A 3D simulation of diving and backflips.</small></li>
+            <li data-name="backrooms horror exploration"><button onclick="loadGame('./backrooms/index.html')"><span class="game-title">The Backrooms</span></button><small>A horror exploration game.</small></li>
             <li data-name="bad ice cream 2 co-op puzzle collection"><button onclick="loadGame('./bad-ice-cream-2/index.html')"><span class="game-title">Bad Ice Cream 2</span></button><small>Co-op puzzle collection game.</small></li>
             <li data-name="black hole square minimalist rotation puzzle"><button onclick="loadGame('./blackholesquare/index.html')"><span class="game-title">Black Hole Square</span></button><small>A minimalist rotation puzzle.</small></li>
             <li data-name="bounceback physics ball paddle puzzle"><button onclick="loadGame('./bounceback/index.html')"><span class="game-title">Bounceback</span></button><small>A physics-based ball and paddle puzzle.</small></li>
@@ -341,10 +368,12 @@
             <li data-name="flappy 2048 combination puzzle"><button onclick="loadGame('./flappy-2048/index.html')"><span class="game-title">Flappy 2048</span></button><small>A combination of Flappy Bird and 2048.</small>
             <li data-name="flappybird alternate tapping difficult"><button onclick="loadGame('./flappybird/index.html')"><span class="game-title">Flappy Bird (Alternate)</span></button><small>Another version of the classic tapper.</small></li>
             <li data-name="geo dash rhythm platformer challenging"><button onclick="loadGame('./geodash/index.html')"><span class="game-title">Geo Dash</span></button><small>A challenging rhythm-based platformer.</small></li>
-            <li data-name="hacker typer typing coding simulator"><button onclick="loadGame('./hackertype/index.html')"><span class="game-title">Hacker Typer</span></button><small>A fun app to make it look like you're coding.</small></li>
+            <li data-name="google snake classic"><button onclick="loadGame('./google-snake/index.html')"><span class="game-title">Google Snake</span></button><small>The classic version of the snake game.</small></li>
+            <li data-name="hackertype typing coding simulator"><button onclick="loadGame('./hackertype/index.html')"><span class="game-title">Hacker Typer</span></button><small>A fun app to make it look like you're coding.</small></li>
             <li data-name="hexgl futuristic racing"><button onclick="loadGame('./HexGL/index.html')"><span class="game-title">HexGL</span></button><small>Futuristic racing game.</small></li>
             <li data-name="idle shark idle clicker"><button onclick="loadGame('./idle-shark/index.html')"><span class="game-title">Idle Shark</span></button><small>An idle clicker game about a shark.</small></li>
             <li data-name="konnekt connection puzzle simple"><button onclick="loadGame('./konnekt/index.html')"><span class="game-title">Konnekt</span></button><small>A simple connection puzzle game.</small></li>
+            <li data-name="madalin stunt cars 2 3d open-world stunt"><button onclick="loadGame('./madalin-stunt-cars-2/index.html')"><span class="game-title">Madalin Stunt Cars 2</span></button><small>3D open-world car stunt simulator.</small></li>
             <li data-name="meme 2048 tile-merging meme-themed"><button onclick="loadGame('./meme2048/index.html')"><span class="game-title">Meme 2048</span></button><small>A meme-themed tile-merging game.</small></li>
             <li data-name="minecraft 2d crafting mining sandbox"><button onclick="loadGame('./minecraft/index.html')"><span class="game-title">Minecraft (2D)</span></button><small>A 2D version of the popular sandbox.</small></li>
             <li data-name="missiles plane avoidance shooter"><button onclick="loadGame('./missiles/index.html')"><span class="game-title">Missiles</span></button><small>Avoid incoming missiles in your small plane.</small></li>
@@ -361,10 +390,10 @@
             <li data-name="polybranch 3d spatial puzzle avoidance"><button onclick="loadGame('./polybranch/index.html')"><span class="game-title">Polybranch</span></button><small>A 3D spatial puzzle and avoidance game.</small></li>
             <li data-name="push your luck strategy risk-reward"><button onclick="loadGame('./push-your-luck/index.html')"><span class="game-title">Push Your Luck</span></button><small>A high-risk, high-reward strategy game.</small></li>
             <li data-name="pushback strategic puzzle force mechanics"><button onclick="loadGame('./pushback/index.html')"><span class="game-title">Pushback</span></button><small>A strategic puzzle game with force mechanics.</small></li>
-            <li data-name="radius raid circle-based space shooter"><button onclick="loadGame('./radiusraid/index.html')"><span class="game-title">Radius Raid</span></button><small>A circle-based space shooter.</small></li>
+            <li data-name="radiusraid circle-based space shooter"><button onclick="loadGame('./radiusraid/index.html')"><span class="game-title">Radius Raid</span></button><small>A circle-based space shooter.</small></li>
+            <li data-name="retrohaunt retro-style horror"><button onclick="loadGame('./retrohaunt/index.html')"><span class="game-title">Retro Haunt</span></button><small>A retro-style horror game.</small></li>
             <li data-name="road blocks car avoidance simple"><button onclick="loadGame('./roadblocks/index.html')"><span class="game-title">Road Blocks</span></button><small>A simple car avoidance game.</small></li>
             <li data-name="rolly vortex fast-paced tunnel avoidance"><button onclick="loadGame('./rolly-vortex/index.html')"><span class="game-title">Rolly Vortex</span></button><small>A fast-paced tunnel avoidance game.</small></li>
-            <li data-name="retro haunt retro-style horror"><button onclick="loadGame('./retrohaunt/index.html')"><span class="game-title">Retro Haunt</span></button><small>A retro-style horror game.</small></li>
             <li data-name="shuttle deck minimalist space puzzle"><button onclick="loadGame('./shuttledeck/index.html')"><span class="game-title">Shuttle Deck</span></button><small>A minimalist space shuttle puzzle/action game.</small></li>
             <li data-name="sleeping beauty classic puzzle"><button onclick="loadGame('./sleepingbeauty/index.html')"><span class="game-title">Sleeping Beauty</span></button><small>A classic puzzle game.</small></li>
             <li data-name="snake classic avoidance"><button onclick="loadGame('./snake/index.html')"><span class="game-title">Snake (Classic)</span></button><small>Another version of the classic snake game.</small></li>
@@ -380,14 +409,13 @@
             <li data-name="stickman survival 2d action"><button onclick="loadGame('./Stickman-Survival/index.html')"><span class="game-title">Stickman Survival</span></button><small>A 2D stickman action survival game.</small></li>
             <li data-name="swerve line avoidance simple"><button onclick="loadGame('./swerve/index.html')"><span class="game-title">Swerve</span></button><small>A simple line avoidance game.</small></li>
             <li data-name="tanuki sunset longboard arcade downhill racer"><button onclick="loadGame('./tanuki-sunset/index.html')"><span class="game-title">Tanuki Sunset</span></button><small>A longboard arcade downhill racer.</small></li>
-            <li data-name="the backrooms horror exploration"><button onclick="loadGame('./backrooms/index.html')"><span class="game-title">The Backrooms</span></button><small>A horror exploration game.</small></li>
             <li data-name="the lost ball maze physics puzzle"><button onclick="loadGame('./the-lost-ball/index.html')"><span class="game-title">The Lost Ball</span></button><small>A simple maze or physics puzzle.</small></li>
             <li data-name="the maze of space goblins sci-fi dungeon crawler"><button onclick="loadGame('./themazeofspacegoblins/index.html')"><span class="game-title">The Maze of Space Goblins</span></button><small>A sci-fi maze/dungeon crawler.</small></li>
             <li data-name="towermaster strategic building defense"><button onclick="loadGame('./towermaster/index.html')"><span class="game-title">Tower Master</span></button><small>A strategic building and defense game.</small></li>
             <li data-name="tv static utility screen"><button onclick="loadGame('./tv-static/index.html')"><span class="game-title">TV Static</span></button><small>A simple static screen utility.</small></li>
             <li data-name="underrun retro platformer shooter"><button onclick="loadGame('./underrun/index.html')"><span class="game-title">Underrun</span></button><small>A retro platformer and shooter.</small></li>
             <li data-name="xx142 b2exe creepy puzzle horror"><button onclick="loadGame('./xx142-b2exe/index.html')"><span class="game-title">xx142-b2.exe</span></button><small>A creepy, puzzle-heavy horror game.</small></li>
-        </ul>
+            </ul>
         
     </div>
 
@@ -398,64 +426,68 @@
         const panicButton = document.getElementById('panic-button');
         const searchInput = document.getElementById('game-search');
         const gameGridItems = document.querySelectorAll('.game-grid li');
+        const safeSiteCover = document.getElementById('safe-site-cover');
 
-        // --- SAFE SITE CONFIGURATION (Two-Tier Logic) ---
-        const SAFE_SITE_PRIMARY = 'https://2000484.github.io/https-nsd.schoology.com-home/';
-        const SAFE_SITE_FALLBACK = 'https://my.nsd.org';
-
-        // --- CORE GAME LOADING AND PANIC FUNCTIONS ---
-
+        // --- CORE GAME LOADING AND PANIC FUNCTIONS (TOGGLE LOGIC) ---
+        let gameIsActive = false;
+        
         function loadGame(url) {
             gameFrame.src = url;
             gameFrame.style.display = 'block'; 
+            panicButton.style.display = 'flex'; // Show the panic button
+            panicButton.style.zIndex = '1001'; // Ensure it's over the game iframe
             container.style.display = 'none';   
             document.body.style.overflow = 'hidden'; 
+            gameIsActive = true;
             window.focus(); // Attempt to give main window focus
         }
 
         function triggerPanic() {
-            // 1. Instant visual indication and state change
-            document.body.style.backgroundColor = 'white';
-            if (container) container.style.display = 'none';
-            if (gameFrame) gameFrame.style.display = 'none';
-
-            // 2. Attempt Primary Redirect (using location.replace for history replacement)
-            try {
-                // Store the current URL before attempting to replace it.
-                const initialUrl = window.location.href;
-                window.location.replace(SAFE_SITE_PRIMARY); 
+            if (gameIsActive) {
+                // If a game is active, pressing the key/button HIDES the game and SHOWS the cover
                 
-                // 3. Set a short timeout to check if the redirect was blocked/failed.
-                // The browser must have time to attempt the primary redirect first.
-                setTimeout(() => {
-                    // Check if the current URL is STILL the initial URL (or still contains the game hub parts)
-                    // If it is, the primary redirect failed, so try the fallback.
-                    if (window.location.href === initialUrl || 
-                        window.location.href.includes('assignments.html') || 
-                        window.location.href.includes('arcadehub')) {
-                        
-                        console.warn('Primary safe site failed (blocked or slow). Redirecting to fallback.');
-                        window.location.replace(SAFE_SITE_FALLBACK);
-                    }
-                }, 200); // 200ms grace period for the browser to execute the primary redirect
-
-            } catch (error) {
-                // If the JavaScript call itself fails (rare), go straight to fallback.
-                console.error('Primary safe site redirect failed with JS error. Redirecting to fallback.', error);
-                window.location.replace(SAFE_SITE_FALLBACK);
+                // 1. Show the Safe Site Cover to obscure the game and the button
+                safeSiteCover.style.display = 'block'; 
+                
+                // 2. Move the Panic Button to a safe, hidden Z-index
+                panicButton.style.zIndex = '500'; // Moves it under the cover
+                
+                gameIsActive = false; // The panic state is now active
+                
+            } else {
+                // If the panic state is active (or on the main page), pressing the key/button 
+                // HIDES the cover and RETURNS to the game (if one was loaded) or the main hub.
+                
+                // 1. Hide the Safe Site Cover
+                safeSiteCover.style.display = 'none';
+                
+                // 2. Show the main content/game again
+                if (gameFrame.style.display === 'block') {
+                    // Resume game
+                    gameIsActive = true;
+                    panicButton.style.zIndex = '1001'; // Bring button back over the game
+                } else {
+                    // Back to main menu
+                    container.style.display = 'block';
+                    panicButton.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
             }
         }
 
-        // --- KEYBOARD HOTKEY FIX (The aggressive, capturing-phase listener) ---
+
+        // --- KEYBOARD HOTKEY FIX (Aggressive Capture) ---
         document.addEventListener('keydown', function(event) {
-            // Check for both the backtick key (` key) and the tilde key (~ key) 
-            // as they share key code 192 on US keyboards and many games intercept them.
+            // Check for backtick (` key) and tilde (~ key)
             if (event.key === '`' || event.key === '~' || event.keyCode === 192) {
-                event.preventDefault(); // Stop the default browser action
-                event.stopImmediatePropagation(); // Prevent other event handlers from firing
-                triggerPanic();
+                // Only prevent default if a game is running or the cover is up
+                if (gameFrame.style.display === 'block' || safeSiteCover.style.display === 'block') {
+                    event.preventDefault(); // Stop the default action (best effort to capture)
+                    event.stopImmediatePropagation(); // Prevent other handlers
+                    triggerPanic();
+                }
             }
-        }, true); // **The 'true' flag ensures this listener fires FIRST.**
+        }, true); // **'true' flag ensures this listener fires FIRST.**
 
         // Attach panic function to the button click
         panicButton.addEventListener('click', triggerPanic);
@@ -467,7 +499,6 @@
             const searchTerm = searchInput.value.toLowerCase().trim();
 
             gameGridItems.forEach(item => {
-                // Search the full data-name attribute for maximum matching
                 const searchData = item.getAttribute('data-name');
                 
                 if (searchData.includes(searchTerm) || searchTerm === '') {
@@ -480,7 +511,6 @@
 
         searchInput.addEventListener('input', filterGames);
 
-        // --- END ---
     </script>
 </body>
 </html>
