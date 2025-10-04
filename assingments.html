@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcade Hub</title>
+    <title>Home | Schoology</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
@@ -430,106 +430,77 @@
 
     
     <script>
-        const container = document.getElementById('container');
-        const gameFrame = document.getElementById('game-frame');
-        const panicButton = document.getElementById('panic-button');
-        const searchInput = document.getElementById('game-search');
-        const gameGridItems = document.querySelectorAll('.game-grid li');
-        const safeSiteCover = document.getElementById('safe-site-cover');
+    // --- State Variables ---
+    let gameIsActive = false;
+    let panicIsActive = false;
+    const gameFrame = document.getElementById('game-frame');
+    const safeSiteCover = document.getElementById('safe-site-cover');
+    const panicButton = document.getElementById('panic-button');
+    const container = document.getElementById('container');
 
-        // --- CORE GAME LOADING AND PANIC FUNCTIONS (TOGGLE LOGIC) ---
-        let gameIsActive = false; // Tracks if a game is currently displayed (not the main hub)
-        let panicIsActive = false; // Tracks if the safe site cover is currently displayed
-        
-        function loadGame(url) {
-            gameFrame.src = url;
-            gameFrame.style.display = 'block'; 
-            panicButton.style.display = 'flex'; 
-            container.style.display = 'none';   
-            document.body.style.overflow = 'hidden'; 
-            gameIsActive = true;
-            panicIsActive = false; // Ensure panic state is off when a game loads
-            safeSiteCover.style.display = 'none'; // Ensure cover is hidden
-            window.focus(); 
-        }
+    // --- Core Functions ---
+    function loadGame(url) {
+        // 1. Hide the game list container
+        container.style.display = 'none';
 
-        function togglePanic() {
-            // Check if we are currently in the panic state
+        // 2. Set the iframe source and make it visible
+        gameFrame.src = url;
+        gameFrame.style.display = 'block';
+
+        // 3. Show the panic button
+        panicButton.style.display = 'flex'; 
+
+        // 4. Update state
+        gameIsActive = true;
+    }
+
+    function togglePanic() {
+        if (gameIsActive) {
+            panicIsActive = !panicIsActive; // Toggle the panic state
+            
             if (panicIsActive) {
-                // EXITING PANIC STATE (Back to game/hub)
-                safeSiteCover.style.display = 'none';
-                panicButton.style.zIndex = '1001'; // Button back over game
-                panicIsActive = false;
-                
-                if (gameIsActive) {
-                    // Back to game
-                    gameFrame.style.display = 'block';
-                    panicButton.style.display = 'flex';
-                } else {
-                    // Back to main hub
-                    container.style.display = 'block';
-                    panicButton.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
+                // Panic ON: Hide game, show cover
+                gameFrame.style.display = 'none';
+                safeSiteCover.style.display = 'block';
+                document.title = 'My School District Portal'; // Change Tab Title
             } else {
-                // ENTERING PANIC STATE (Cover everything)
-                
-                // 1. Check if a game is loaded before initiating the panic state
-                if (gameIsActive || container.style.display !== 'none') {
-                     // 2. Show the Safe Site Cover (white flash)
-                    safeSiteCover.style.display = 'block'; 
-                    
-                    // 3. Move the Panic Button under the cover so it can't be seen/clicked
-                    panicButton.style.zIndex = '500'; 
-                    
-                    // 4. Hide the game and/or hub
-                    if (gameIsActive) {
-                        gameFrame.style.display = 'none';
-                    } else {
-                        container.style.display = 'none';
-                    }
-                    
-                    panicIsActive = true;
-                }
+                // Panic OFF: Show game, hide cover
+                safeSiteCover.style.display = 'none';
+                gameFrame.style.display = 'block';
+                document.title = 'Arcade Hub'; // Change Tab Title Back
             }
         }
+    }
 
+    // --- Search Functionality ---
+    document.getElementById('game-search').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        const gameItems = document.querySelectorAll('.game-grid li');
 
-        // --- KEYBOARD HOTKEY FIX (Aggressive Capture) ---
-    if (gameFrame && gameFrame.contentWindow) {
-        gameFrame.contentWindow.document.addEventListener('keydown', function(event) {
-            if (event.key === '`' || event.key === '~' || event.keyCode === 192) {
-                // If the game hub is active OR the panic screen is active, trigger the toggle
-                if (gameIsActive || panicIsActive) {
-                    event.preventDefault(); 
-                    event.stopImmediatePropagation(); 
-                    togglePanic();
-                }
+        gameItems.forEach(item => {
+            const dataName = item.getAttribute('data-name');
+            if (dataName.includes(searchTerm)) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
             }
-        }, true); // 'true' flag ensures this listener fires FIRST, guaranteeing capture.
+        });
+    });
 
-        // Attach panic function to the button click
-        panicButton.addEventListener('click', togglePanic);
-
-
-        // --- SEARCH FUNCTIONALITY ---
-
-        function filterGames() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-
-            gameGridItems.forEach(item => {
-                const searchData = item.getAttribute('data-name');
-                
-                if (searchData.includes(searchTerm) || searchTerm === '') {
-                    item.classList.remove('hidden');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
+    // --- Panic Key Listener (The part you provided) ---
+    window.addEventListener('keydown', function(event) {
+        // Check for backtick (`) key and tilde (~) key
+        // event.code 'Backquote' is more robust than key or keyCode
+        if (event.code === 'Backquote' || event.key === '`' || event.key === '~' || event.keyCode === 192) {
+            
+            // Only toggle if a game is currently loaded (gameIsActive is true)
+            if (gameIsActive) {
+                event.preventDefault(); 
+                event.stopImmediatePropagation(); 
+                togglePanic();
+            }
         }
-
-        searchInput.addEventListener('input', filterGames);
-
-    </script>
+    }, true); 
+</script>
 </body>
 </html>
