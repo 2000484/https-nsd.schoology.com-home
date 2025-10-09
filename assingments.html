@@ -438,69 +438,100 @@
     const panicButton = document.getElementById('panic-button');
     const container = document.getElementById('container');
 
-    // --- Core Functions ---
-    function loadGame(url) {
-        // 1. Hide the game list container
-        container.style.display = 'none';
+    // --- Core Functions (MODIFIED loadGame function) ---
+function loadGame(url) {
+    // 1. Hide the game list container
+    container.style.display = 'none';
 
-        // 2. Set the iframe source and make it visible
-        gameFrame.src = url;
-        gameFrame.style.display = 'block';
+    // 2. Set the iframe source and make it visible
+    gameFrame.src = url;
+    gameFrame.style.display = 'block';
 
-        // 3. Show the panic button
-        panicButton.style.display = 'flex'; 
+    // 3. Show the panic button
+    panicButton.style.display = 'flex'; 
 
-        // 4. Update state
-        gameIsActive = true;
-    }
-
-    function togglePanic() {
-        if (gameIsActive) {
-            panicIsActive = !panicIsActive; // Toggle the panic state
+    // 4. Update state
+    gameIsActive = true;
+    
+    // 5. ADD THE LISTENER TO THE IFRAME'S WINDOW
+    // This listener must be set up AFTER the iframe content has loaded to ensure the window object is accessible.
+    gameFrame.onload = function() {
+        try {
+            const iframeWindow = gameFrame.contentWindow;
             
-            if (panicIsActive) {
-                // Panic ON: Hide game, show cover
-                gameFrame.style.display = 'none';
-                safeSiteCover.style.display = 'block';
-                document.title = 'My School District Portal'; // Change Tab Title
-            } else {
-                // Panic OFF: Show game, hide cover
-                safeSiteCover.style.display = 'none';
-                gameFrame.style.display = 'block';
-                document.title = 'Arcade Hub'; // Change Tab Title Back
-            }
+            // Attach the listener to the iframe's window.
+            // When the key is pressed in the iframe, it will bubble up and call the parent's function.
+            iframeWindow.addEventListener('keydown', function(event) {
+                if (event.code === 'Backquote' || event.key === '`' || event.key === '~' || event.keyCode === 192) {
+                    
+                    // Call the parent's function and prevent default action inside the iframe
+                    if (window.parent.gameIsActive) {
+                        event.preventDefault(); 
+                        event.stopImmediatePropagation(); 
+                        window.parent.togglePanic(); 
+                    }
+                }
+            }, true);
+            
+            // Clear the onload handler so it doesn't try to reattach on every iframe navigation
+            gameFrame.onload = null; 
+
+        } catch (e) {
+            console.error("Could not attach key listener to game frame. Are the origins matching exactly?", e);
+        }
+    };
+}
+
+function togglePanic() {
+    // ... (Keep this function exactly as it is) ...
+    if (gameIsActive) {
+        panicIsActive = !panicIsActive; // Toggle the panic state
+        
+        if (panicIsActive) {
+            // Panic ON: Hide game, show cover
+            gameFrame.style.display = 'none';
+            safeSiteCover.style.display = 'block';
+            document.title = 'My School District Portal'; // Change Tab Title
+        } else {
+            // Panic OFF: Show game, hide cover
+            safeSiteCover.style.display = 'none';
+            gameFrame.style.display = 'block';
+            document.title = 'Arcade Hub'; // Change Tab Title Back
         }
     }
+}
 
-    // --- Search Functionality ---
-    document.getElementById('game-search').addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase().trim();
-        const gameItems = document.querySelectorAll('.game-grid li');
+// --- Search Functionality (Keep this the same) ---
+document.getElementById('game-search').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase().trim();
+    const gameItems = document.querySelectorAll('.game-grid li');
 
-        gameItems.forEach(item => {
-            const dataName = item.getAttribute('data-name');
-            if (dataName.includes(searchTerm)) {
-                item.classList.remove('hidden');
-            } else {
-                item.classList.add('hidden');
-            }
-        });
+    gameItems.forEach(item => {
+        const dataName = item.getAttribute('data-name');
+        if (dataName.includes(searchTerm)) {
+            item.classList.remove('hidden');
+        } else {
+            item.classList.add('hidden');
+        }
     });
+});
 
-    // --- Panic Key Listener (The part you provided) ---
-    window.addEventListener('keydown', function(event) {
-        // Check for backtick (`) key and tilde (~) key
-        // event.code 'Backquote' is more robust than key or keyCode
-        if (event.code === 'Backquote' || event.key === '`' || event.key === '~' || event.keyCode === 192) {
-            
-            // Only toggle if a game is currently loaded (gameIsActive is true)
-            if (gameIsActive) {
-                event.preventDefault(); 
-                event.stopImmediatePropagation(); 
-                togglePanic();
-            }
+// --- Panic Key Listener (REMOVE THE ORIGINAL ONE, it is now inside loadGame) ---
+// Since we are attaching the listener directly to the iframe's window in loadGame, 
+// we only need a listener for when the parent page is active (i.e., when no game is loaded 
+// or after panic is engaged). 
+
+// Re-add your original listener, but primarily to handle the case when the list is visible
+// or when the safe-site cover is focused.
+window.addEventListener('keydown', function(event) {
+    if (event.code === 'Backquote' || event.key === '`' || event.key === '~' || event.keyCode === 192) {
+        if (gameIsActive) {
+            event.preventDefault(); 
+            event.stopImmediatePropagation(); 
+            togglePanic();
         }
-    }, true); 
+    }
+}, true);
 </script>
 </body>
 </html>
